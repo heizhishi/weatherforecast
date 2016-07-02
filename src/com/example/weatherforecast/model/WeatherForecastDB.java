@@ -80,9 +80,9 @@ public class WeatherForecastDB {
             sqLiteDatabase.insert("City",null,contentValues);
         }
     }
-    public List<City> loadCities(){
+    public List<City> loadCities(int provinceId){
         List<City> list=new ArrayList<City>();
-        Cursor cursor=sqLiteDatabase.query("City",null,null,null,null,null,null);
+        Cursor cursor=sqLiteDatabase.query("City",null,"province_id=?",new String[]{String.valueOf(provinceId)},null,null,null);
         if(cursor.moveToFirst()){
             do{
                 City city=new City();
@@ -106,9 +106,9 @@ public class WeatherForecastDB {
         sqLiteDatabase.insert("City",null,contentValues);
 
     }
-    public List<Country> loadCountries(){
+    public List<Country> loadCountries(int cityId){
         List<Country> list=new ArrayList<Country>();
-       Cursor cursor= sqLiteDatabase.query("City",null,null,null,null,null,null);
+       Cursor cursor= sqLiteDatabase.query("City",null,"city_id=?",new String[]{String.valueOf(cityId)},null,null,null);
         if(cursor.moveToFirst()){
             do{
               Country country=new Country();
