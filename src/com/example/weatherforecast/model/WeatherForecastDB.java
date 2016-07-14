@@ -86,6 +86,7 @@ public class WeatherForecastDB {
         if(cursor.moveToFirst()){
             do{
                 City city=new City();
+                city.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 city.setCityName(cursor.getString(cursor.getColumnIndex("city_name")));
                 city.setCityCode(cursor.getString(cursor.getColumnIndex("city_code")));
                 city.setProvinceId(cursor.getInt(cursor.getColumnIndex("province_id")));
@@ -99,19 +100,22 @@ public class WeatherForecastDB {
         return list;
     }
     public void saveCountry(Country country){
-        ContentValues contentValues=new ContentValues();
-        contentValues.put("country_name",country.getCountryName());
-        contentValues.put("country_code",country.getCountryCode());
-        contentValues.put("city_id",country.getCityId());
-        sqLiteDatabase.insert("City",null,contentValues);
+        if(country!=null) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("country_name", country.getCountryName());
+            contentValues.put("country_code", country.getCountryCode());
+            contentValues.put("city_id", country.getCityId());
+            sqLiteDatabase.insert("Country", null, contentValues);
+        }
 
     }
     public List<Country> loadCountries(int cityId){
         List<Country> list=new ArrayList<Country>();
-       Cursor cursor= sqLiteDatabase.query("City",null,"city_id=?",new String[]{String.valueOf(cityId)},null,null,null);
+       Cursor cursor= sqLiteDatabase.query("Country",null,"city_id=?",new String[]{String.valueOf(cityId)},null,null,null);
         if(cursor.moveToFirst()){
             do{
               Country country=new Country();
+                country.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 country.setCountryName(cursor.getString(cursor.getColumnIndex("country_name")));
                country.setCountryCode(cursor.getString(cursor.getColumnIndex("country_code")));
                country.setCityId(cursor.getInt(cursor.getColumnIndex("city_id")));
